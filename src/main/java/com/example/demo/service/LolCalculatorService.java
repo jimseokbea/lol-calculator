@@ -81,7 +81,7 @@ import org.springframework.stereotype.Service;
         }
         int totalCost = calculate(totalMinutes);
 
-        return gameName +"님이 최근 5게임 동안 날린 시간은 "+ totalMinutes + "분이며 기회비용은 " + totalCost +"원 입니다!";
+        return gameName +"님은 최근 5연패 했으며 5게임 동안 날린 시간은 "+ totalMinutes + "분 최저시급으로는 " + totalCost +"원 입니다!";
     }
     }
 
