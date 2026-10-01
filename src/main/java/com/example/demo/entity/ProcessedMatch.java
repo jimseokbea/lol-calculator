@@ -3,9 +3,11 @@ package com.example.demo.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 @Entity
+@IdClass(ProcessedMatchId.class)
 @Table(name = "processed_match")
 public class ProcessedMatch {
 
@@ -13,6 +15,7 @@ public class ProcessedMatch {
     @Column(name = "match_id", nullable = false, length = 50)
     private String matchId;
 
+    @Id
     @Column(name = "user_id", nullable = false)
     private Long userId;
 

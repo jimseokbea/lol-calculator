@@ -52,8 +52,12 @@ public class LolCalculatorService {
     }
 
     public String getRecentMatchIds(String puuid) {
-        String url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=20&api_key={apiKey}";
-        String result = restTemplate.getForObject(url, String.class, puuid, apiKey);
+        return getMatchIds(puuid, 0, 20);
+    }
+
+    private String getMatchIds(String puuid, int start, int count) {
+        String url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start={start}&count={count}&api_key={apiKey}";
+        String result = restTemplate.getForObject(url, String.class, puuid, start, count, apiKey);
 
         if (result == null) {
             throw new IllegalStateException("최근 경기 조회 결과가 비어 있습니다.");
@@ -62,7 +66,14 @@ public class LolCalculatorService {
     }
 
     public List<String> getRecentMatchIdList(String puuid) {
-        String rawMatchIds = getRecentMatchIds(puuid);
+        return getMatchIdPage(puuid, 0, 20);
+    }
+
+    public List<String> getMatchIdPage(String puuid, int start, int count) {
+        if (start < 0 || count < 1 || count > 100) {
+            throw new IllegalArgumentException("Invalid match page");
+        }
+        String rawMatchIds = getMatchIds(puuid, start, count);
         String clean = rawMatchIds
                 .replace("[", "")
                 .replace("]", "")
